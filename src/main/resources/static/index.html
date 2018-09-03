@@ -1,17 +1,83 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>index.html</title>
-	
-    <meta name="keywords" content="keyword1,keyword2,keyword3">
-    <meta name="description" content="this is my page">
-    <meta name="content-type" content="text/html; charset=UTF-8">
-    
-    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
 
-  </head>
-  
-  <body>
-    This is my HTML page. <br>
-  </body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<title></title>
+		<style>
+			body {
+				background-image: url(image/book.jpg);
+			}
+			
+			.container {
+				width: 100%;
+			}
+			
+			#login {
+				position: relative;
+			}
+			
+			#login-main {
+				background: rgba(0, 0, 0, 0.5);
+				position: absolute;
+				right: 10%;
+				width: 80%;
+				height: 300px;
+				margin-top: 20%;
+				color: white;
+			}
+			
+			#login-main h1 {
+				margin: 5%;
+			}
+			
+			#login-main p {
+				text-align: center;
+			}
+			#login-main input::-webkit-input-placeholder {
+				color: #aab2bd;
+			}
+			#login-main input {
+				color: white;
+				border: 1px solid white;
+				border-radius: 5px;
+				background: rgba(0, 0, 0, 0);
+				padding: 5px;
+				width:90%;
+				height: 42px;
+				font: 18px!important;
+				outline:none;
+			}
+			#submit{
+				border: none!important;
+				background-color: green!important;
+			}
+			#submit:hover{
+				background-color: mediumseagreen!important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8"></div>
+				<div class="col-md-4 col-xs-12" id="login">
+					<div id="login-main">
+						<h1>用户登陆</h1>
+						<p><input placeholder="用户名" name="username"/></p>
+						<p><input placeholder="密码" type="password" name="password"/></p>
+						<p><input type="submit" value="登陆" id="submit"/></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
 </html>

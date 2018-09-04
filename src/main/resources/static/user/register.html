@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="../css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css" />
+		<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+		<title>用户注册</title>
+		<style>
+			body {
+				background-image: url(../image/book.jpg);
+			}
+			.container {
+				width: 100%;
+			}
+			#box-main {
+				position: relative;
+			}
+			
+			#main {
+				background: rgba(0, 0, 0, 0.5);
+				position: absolute;
+				right: 10%;
+				width: 80%;
+				height: 300px;
+				margin-top: 20%;
+				color: white;
+			}
+			#main input {
+				color: white;
+				border: 1px solid white;
+				border-radius: 5px;
+				background: rgba(0, 0, 0, 0);
+				padding: 5px;
+				width:90%;
+				height: 42px;
+				font: 18px!important;
+				outline:none;
+			}
+			#submit{
+				border: none!important;
+				background-color: green!important;
+			}
+			#submit:hover{
+				background-color: mediumseagreen!important;
+			}
+			input::-webkit-input-placeholder {
+				color: #aab2bd;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4 col-xs-12" id="box-main">
+					<div id="main">
+						<form method="post" onsubmit="return isExists();" action="/user/register.do" style="text-align: center;">
+							<h1>用户注册</h1>
+							<p><input name="username" placeholder="账号"/></p>
+							<p><input name="password" type="password" placeholder="密码"/></p>
+							<p><input id="submit" type="submit" value="注册"/></p>
+						</form>
+					</div>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+		<script>
+			function isExists(){
+				$.ajaxSettings.async = false;
+				var flag = true;
+				$.post("/user/exists",{username:$("[name='username']").val()},function(e){
+					if(e.message!="success"){
+						alert("已存在该用户！")
+						flag=false;						
+					}
+				},"json");
+				$.ajaxSettings.async = true;
+				return flag;
+			}
+		</script>
+	</body>
+
+</html>

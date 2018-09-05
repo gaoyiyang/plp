@@ -2,10 +2,15 @@ package com.demo.plp.service.impl;
 
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
 import com.demo.plp.mapper.UserMapper;
@@ -32,9 +37,22 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public User getUser(String username, String password) {
 		User user = userMapper.exists(username);
+		if(user==null)
+			return null;
 		if(password==null||!password.equals(user.getPassword()))
 			return null;
 		return user;
+	}
+	
+	/**
+	 * 获取当前在线用户
+	 * @param request
+	 * @return
+	 */
+	@Override
+	public User getUserInfo(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		return (User) cache.getHashValue(IRedisService.IS_ONLINE, session.getId());
 	}
 
 	@Override
@@ -53,19 +71,28 @@ public class UserServiceImpl implements IUserService {
 		return userMapper.exists(username);
 	}
 
-	@Override
-	public boolean isOnline(User user, String ip) {
-		if(cache.getHashValue(user.getId(), ip)==null){
+	@Override 
+	public boolean isOnline(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(cache.getHashValue(IRedisService.IS_ONLINE, session.getId())==null){
 			return false;
 		}
 		//刷新缓存时间
-		login(user,ip);
+		login(request);
 		return true;
 	}
 
 	@Override
-	public void login(User user, String ip) {
-		cache.setHashValue(user.getId(), ip, "online", 30 * 60L);
+	public void login(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		cache.setHashValue(IRedisService.IS_ONLINE, session.getId(), session.getAttribute("user"), 30 * 60L);
+	}
+
+	@Override
+	public void logout(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.removeAttribute("user");
+		cache.removeHash(IRedisService.IS_ONLINE, session.getId());
 	}
 
 }

@@ -5,14 +5,14 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-		<link rel="stylesheet" href="css/bootstrap.min.css" />
-		<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
-		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-		<script type="text/javascript" src="js/bootstrap.min.js"></script>
-		<title></title>
+		<link rel="stylesheet" href="/files/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="/files/css/bootstrap-theme.min.css" />
+		<script type="text/javascript" src="/files/js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/files/js/bootstrap.min.js"></script>
+		<title>用户登陆</title>
 		<style>
 			body {
-				background-image: url(image/book.jpg);
+				background-image: url(/files/image/book.jpg);
 			}
 			.container {
 				width: 100%;
@@ -70,14 +70,34 @@
 				<div class="col-md-4 col-xs-12" id="login">
 					<div id="login-main">
 						<h1>用户登陆</h1>
-						<p><input placeholder="用户名" name="username"/></p>
-						<p><input placeholder="密码" type="password" name="password"/></p>
-						<p><input type="submit" value="登陆" id="submit"/></p>
+						<p><input placeholder="用户名" id="username"/></p>
+						<p><input placeholder="密码" type="password" id="password"/></p>
+						<p><input type="button" value="登陆" id="submit" onclick="login()"/></p>
 						<p><a href="user/register">用户注册</a></p>
 					</div>
 				</div>
 			</div>
 		</div>
+		<script>
+			function login(){
+				$("#submit").val("登陆中...");
+				$("#submit")[0].disabled = true;
+    			$.ajaxSettings.async = false;
+    			var loading=document.createElement("div");
+    			$(loading).css({"width":window.outerWidth+100+"px","height":window.outerHeight+100+"px","position":"absolute","z-index":"99999","background-color":"rgba(0,0,0,0.8)"})
+				document.querySelector("body").appendChild(loading);
+				$.post("/user/login",{username:$("#username").val(),password:$('#password').val()},
+						function(result){
+							document.querySelector("body").removeChild(loading);
+							$.ajaxSettings.async = true;
+							if(result.status!="success"){
+								alert(result.message);
+								return;
+							}
+							window.location.href = "/main.html";
+						},"json");
+			}
+		</script>
 	</body>
 
 </html>

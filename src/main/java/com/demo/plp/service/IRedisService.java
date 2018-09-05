@@ -2,6 +2,7 @@ package com.demo.plp.service;
 
 public interface IRedisService {
 	public String USER_INFO = "userinfo&plp";
+	public String IS_ONLINE = "isonline&plp";
 	boolean setValue(String key, Object value);
 	boolean setValue(String key, Object value, Long time);
 	boolean setHashValue(String key, String field, Object value);

@@ -36,7 +36,7 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public User getUser(String username, String password) {
-		User user = userMapper.exists(username);
+		User user = getUser(username);
 		if(user==null)
 			return null;
 		if(password==null||!password.equals(user.getPassword()))

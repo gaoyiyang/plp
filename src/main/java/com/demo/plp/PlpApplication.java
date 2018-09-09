@@ -8,6 +8,11 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication
 public class PlpApplication extends SpringBootServletInitializer {
 
+	public PlpApplication(){
+		super();
+		setRegisterErrorPageFilter(false);
+	}
+	
 	public static void main(String[] args) {
 		SpringApplication.run(PlpApplication.class, args);
 	}

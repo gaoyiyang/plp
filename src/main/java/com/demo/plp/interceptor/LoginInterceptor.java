@@ -28,6 +28,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		boolean isOnline = userService.isOnline(request);
 		if(isOnline){
 			response.sendRedirect("/main.html");
+			return false;
 		}
 		return true;
 	}

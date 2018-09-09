@@ -8,7 +8,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.demo.plp.interceptor.LoginInterceptor;
 import com.demo.plp.interceptor.UserInterceptor;
-
+/**
+ * 拦截器配置
+ * @author gaoyiyang
+ *
+ */
 @Configuration
 public class MyWebMvcConfig implements WebMvcConfigurer {
 

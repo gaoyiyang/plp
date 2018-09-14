@@ -33,7 +33,7 @@ public class UserController extends LoggerSuper{
 	private UserLogMapper userLogMapper;
 	
 	/**
-	 * 用户注册
+	 * 用户注册 
 	 * @param username
 	 * @param password
 	 * @param code 验证码

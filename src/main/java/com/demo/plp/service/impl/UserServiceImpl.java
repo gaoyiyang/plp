@@ -1,5 +1,6 @@
 package com.demo.plp.service.impl;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import com.demo.plp.mapper.UserMapper;
 import com.demo.plp.po.User;
 import com.demo.plp.service.IRedisService;
 import com.demo.plp.service.IUserService;
+import com.demo.plp.utils.MD5Util;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -28,6 +30,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public void addUser(String username, String password) {
 		User user = new User();
+		password = MD5Util.getMD5(password);
 		user.setId(UUID.randomUUID().toString().replace("-", ""));
 		user.setUsername(username);
 		user.setPassword(password);
@@ -37,6 +40,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public User getUser(String username, String password) {
 		User user = getUser(username);
+		password = MD5Util.getMD5(password);
 		if(user==null)
 			return null;
 		if(password==null||!password.equals(user.getPassword()))
@@ -93,6 +97,11 @@ public class UserServiceImpl implements IUserService {
 		HttpSession session = request.getSession();
 		session.removeAttribute("user");
 		cache.removeHash(IRedisService.IS_ONLINE, session.getId());
+	}
+
+	@Override
+	public List<User> userList(int page, int pageSize) {
+		return userMapper.selectAll(page*pageSize, pageSize);
 	}
 
 }

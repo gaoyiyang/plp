@@ -23,8 +23,8 @@ public interface UserMapper {
 	public User select(@Param("username") String username,@Param("password") String password);
 	@Select("SELECT * FROM info_user WHERE username=#{username}")
 	public User exists(@Param("username") String username);
-	@Update("UPDATE info_user SET username=#{username},passwor#{password} WHERE id=#{id}")
+	@Update("UPDATE info_user SET username=#{username},password=#{password} WHERE id=#{id}")
 	public void update(User user);
-	@Select("SELECT * FROM info_user limit #{page},#{pageSize}")
-	public List<User> selectAll(@Param("page")int page, @Param("pageSize")int pageSize);
+	@Select("SELECT * FROM info_user limit #{begin},#{pageSize}")
+	public List<User> selectAll(@Param("begin")int begin, @Param("pageSize")int pageSize);
 }

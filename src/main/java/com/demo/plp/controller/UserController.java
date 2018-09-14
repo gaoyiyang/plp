@@ -20,9 +20,10 @@ import com.demo.plp.service.IUserFullService;
 import com.demo.plp.service.IUserService;
 import com.demo.plp.utils.IPUtil;
 import com.demo.plp.utils.VerifyCodeUtils;
+import com.demo.plp.utils.superclass.LoggerSuper;
 
 @RestController
-public class UserController {
+public class UserController extends LoggerSuper{
 	@Autowired
 	private IUserService userService;
 	@Autowired

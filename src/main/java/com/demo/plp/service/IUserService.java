@@ -1,6 +1,8 @@
 package com.demo.plp.service;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.demo.plp.po.User;
@@ -17,4 +19,5 @@ public interface IUserService {
 	//用户注销
 	void logout(HttpServletRequest request);
 	User getUserInfo(HttpServletRequest request);
+	List<User> userList(int page,int pageSize);
 }

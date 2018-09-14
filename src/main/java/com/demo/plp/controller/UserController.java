@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.demo.plp.mapper.UserLogMapper;
 import com.demo.plp.po.Message;
 import com.demo.plp.po.User;
 import com.demo.plp.service.IUserFullService;
@@ -28,6 +29,8 @@ public class UserController extends LoggerSuper{
 	private IUserService userService;
 	@Autowired
 	private IUserFullService userFullService;
+	@Autowired
+	private UserLogMapper userLogMapper;
 	
 	/**
 	 * 用户注册
@@ -50,6 +53,7 @@ public class UserController extends LoggerSuper{
 			String verifycode = (String) session.getAttribute("verifycode");
 			if(code!=null&&code.equalsIgnoreCase(verifycode)){
 				userService.addUser(username, password);
+				log.info("注册用户["+userService.getUser(username).getUsername()+"]");
 			}else{
 				message.setStatus(Message.FAILURE);
 				message.setMessage("验证码错误");
@@ -121,6 +125,9 @@ public class UserController extends LoggerSuper{
 		}else{
 			request.getSession().setAttribute("user", user);
 			userService.login(request);
+			String ipAddr = request.getRemoteAddr();
+			log.info("用户["+user.getUsername()+"]登陆,登陆ip["+ipAddr+"]");
+			userLogMapper.insert(user, ipAddr);
 		}
 		return message;
 	}

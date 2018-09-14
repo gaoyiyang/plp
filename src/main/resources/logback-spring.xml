@@ -7,7 +7,7 @@
     <appender name="consoleLog1" class="ch.qos.logback.core.ConsoleAppender">
         <!--展示格式 layout-->
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>- Log:%d{HH:mm:ss}-[%class] %-5level - %msg%n</pattern>
+            <pattern>- Log:%d{HH:mm:ss}-[%class] %-5level- %msg%n</pattern>
         </layout>
     </appender>
 

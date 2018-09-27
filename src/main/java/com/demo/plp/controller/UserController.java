@@ -134,9 +134,6 @@ public class UserController extends LoggerSuper{
 			String ipAddr = request.getRemoteAddr();
 			log.info("用户["+user.getUsername()+"]登陆,登陆ip["+ipAddr+"]");
 			userLogMapper.insert(user, ipAddr);
-			String pass = GetTimeId.getInstance().next();
-			cache.setHashValue(IRedisService.WS, pass, user.getId());
-			request.getSession().setAttribute("websocket_id", pass);
 		}
 		return message;
 	}

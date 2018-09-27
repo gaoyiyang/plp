@@ -13,6 +13,7 @@
 		<script type="text/javascript" src="files/js/jquery-3.3.1.min.js"></script>
 		<script type="text/javascript" src="files/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="files/js/plp_banner.js"></script>
+		<script type="text/javascript" src="files/js/im.js"></script>
 		<style>
 			ul.banner li{
 				list-style: none;
@@ -106,16 +107,7 @@
 
 				$.post('/user/userinfo', {}, function(user) {
 					$("#username").html(user.username + '<span class="caret"></span>');
-				}, "json");
-				$.post('/user/wsid', {}, function(msg) {
-					console.dir(msg);
-					if(msg.status=="failure"){
-						alert(msg.message);
-					}
-					var data = msg.data;
-					var ipaddr = data.ipaddr;
-					var pass = data.wsid;
-					window._wsobj = new WebSocket("ws://"+ipaddr+"/_ws/" + pass);
+					init(user);
 				}, "json");
 			});
 		</script>

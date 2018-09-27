@@ -34,7 +34,6 @@ public class UserInfoRunner extends LoggerSuper implements CommandLineRunner {
 			List<User> list = userService.userList(i++, 10);
 			if(list==null||list.size()==0)
 				break;
-			System.out.println(list.size());
 			for(User user : list){
 				cache.setHashValue(IRedisService.USER_INFO, user.getUsername(), user);
 				log.info("用户名:"+user.getUsername()+"[保存成功]");

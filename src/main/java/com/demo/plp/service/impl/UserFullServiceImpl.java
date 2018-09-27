@@ -9,6 +9,7 @@ import com.demo.plp.mapper.UserFullMapper;
 import com.demo.plp.po.User;
 import com.demo.plp.po.UserFull;
 import com.demo.plp.service.IUserFullService;
+import com.demo.plp.utils.GetTimeId;
 
 @Service
 public class UserFullServiceImpl implements IUserFullService {
@@ -36,7 +37,7 @@ public class UserFullServiceImpl implements IUserFullService {
 	@Override
 	public void addUserFull(User user) {
 		UserFull userFull = new UserFull();
-		userFull.setId(UUID.randomUUID().toString().replace("-", ""));
+		userFull.setId(GetTimeId.getInstance().next());
 		userFull.setUserId(user.getId());
 		addUserFull(userFull);
 	}

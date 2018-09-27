@@ -18,6 +18,7 @@ import com.demo.plp.mapper.UserMapper;
 import com.demo.plp.po.User;
 import com.demo.plp.service.IRedisService;
 import com.demo.plp.service.IUserService;
+import com.demo.plp.utils.GetTimeId;
 import com.demo.plp.utils.MD5Util;
 
 @Service
@@ -31,7 +32,7 @@ public class UserServiceImpl implements IUserService {
 	public void addUser(String username, String password) {
 		User user = new User();
 		password = MD5Util.getMD5(password);
-		user.setId(UUID.randomUUID().toString().replace("-", ""));
+		user.setId(GetTimeId.getInstance().next());
 		user.setUsername(username);
 		user.setPassword(password);
 		userMapper.insert(user);

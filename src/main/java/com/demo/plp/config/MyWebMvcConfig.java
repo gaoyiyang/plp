@@ -25,7 +25,7 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry interceptorregistry) {
 		interceptorregistry.addInterceptor(userInterceptor).addPathPatterns("/**")
 			.excludePathPatterns("/user/**","/index.html",
-					"/files/**","/static/files/**");
+					"/files/**","/static/files/**","/_ws/**");
 		interceptorregistry.addInterceptor(loginInterceptor).addPathPatterns("/index.html");
 	}
 	

@@ -1,6 +1,7 @@
 package com.demo.plp.controller;
 
 import java.io.IOException;
+import java.net.InetAddress;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,11 +15,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.demo.plp.mapper.UserLogMapper;
 import com.demo.plp.po.Message;
 import com.demo.plp.po.User;
+import com.demo.plp.service.IRedisService;
 import com.demo.plp.service.IUserFullService;
 import com.demo.plp.service.IUserService;
+import com.demo.plp.utils.GetTimeId;
 import com.demo.plp.utils.IPUtil;
 import com.demo.plp.utils.VerifyCodeUtils;
 import com.demo.plp.utils.superclass.LoggerSuper;
@@ -31,6 +35,8 @@ public class UserController extends LoggerSuper{
 	private IUserFullService userFullService;
 	@Autowired
 	private UserLogMapper userLogMapper;
+	@Autowired
+	private IRedisService cache;
 	
 	/**
 	 * 用户注册 
@@ -128,6 +134,9 @@ public class UserController extends LoggerSuper{
 			String ipAddr = request.getRemoteAddr();
 			log.info("用户["+user.getUsername()+"]登陆,登陆ip["+ipAddr+"]");
 			userLogMapper.insert(user, ipAddr);
+			String pass = GetTimeId.getInstance().next();
+			cache.setHashValue(IRedisService.WS, pass, user.getId());
+			request.getSession().setAttribute("websocket_id", pass);
 		}
 		return message;
 	}
@@ -143,6 +152,26 @@ public class UserController extends LoggerSuper{
 		if(user==null)
 			user = new User();
 		return user;
+	}
+	
+	/**
+	 * 获取ws连接id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="user/wsid",method=RequestMethod.POST)
+	public Message getWebSocketId(HttpSession session){
+		Message message = new Message();
+		try{
+			JSONObject json = new JSONObject();
+			json.put("wsid", session.getAttribute("websocket_id"));
+			json.put("ipaddr", InetAddress.getLocalHost().getHostAddress());
+			message.setData(json);
+		}catch (Exception e) {
+			message.setStatus(message.FAILURE);
+			message.setMessage("请求失败");
+		}
+		return message;
 	}
 	
 	/**
